@@ -11,7 +11,7 @@ public class Util {
 	static long e;
 	
 	Util() {
-		e = 2;
+		e = 1;
 	}
 
 	public static void main(String[] args) {
