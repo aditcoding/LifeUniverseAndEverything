@@ -172,8 +172,8 @@ public class Tunnels {
 		} else {
 			inFileName = "tunnels.in";
 		}
-		FileInputStream inStream = new FileInputStream(inFileName);
-		Scanner inScan = new Scanner(inStream);
+		//FileInputStream inStream = new FileInputStream(inFileName);
+		Scanner inScan = new Scanner(System.in);
 
 		for (;;) {
 			// try to read in a problem
@@ -219,7 +219,7 @@ public class Tunnels {
 	
 	static void log(Object... obj) {
 		for (Object o : obj) {
-			log(o);
+			System.out.println(o);
 		}
 	}
 }
