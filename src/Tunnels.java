@@ -23,6 +23,7 @@ public class Tunnels {
 	static int[] capTo; // capacity of path found to node
 						// if prev[i] >= 0
 	static int[] queue; // nodes still to be visited
+						private static int[] useful = new int [105];
 
 	// dump contents of a matrix in rectangular form
 	static void dumpMatrix(String name, int[][] M) {
@@ -162,6 +163,34 @@ public class Tunnels {
 					}
 				}
 	}
+	
+	private static void findMaxMinMinCut2() {
+		for(int i=1;i<=n;i++)
+		{
+			int m=2147483647;
+			for(int j=1;j<=n;j++)
+				if(useful[j]==0 && minCut[j]<m)
+					m=minCut[j];
+			for(int j=1;j<=n;j++)
+				if(m==minCut[j])
+				{
+					useful[j]=1;
+					del(j);
+				}
+				for(int j=1;j<=n;j++)
+					if(useful[j]==0)
+					{
+						minCut[j]=Math.min(minCut[j],m+findMaxFlow(0,j));
+					}
+		}
+		
+	}
+	
+	static void del(int x)
+	{
+		for(int i=0;i<=n;i++)
+			a[i][x]=a[x][i]=0;
+	}
 
 	// main procedure
 	public static void main(String arg[]) throws FileNotFoundException {
@@ -183,20 +212,13 @@ public class Tunnels {
 				break;
 			log("--new graph-- " + n + " " + e);
 			// allocate & initialize the arrays
-			a = new int[n][n];
-			minCut = new int[n];
+			a = new int[105][105];
+			minCut = new int[105];
 			maxMinMinCut = new int[n][n];
 			flow = new int[n][n];
 			prev = new int[n];
 			capTo = new int[n];
 			queue = new int[n];
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					a[i][j] = 0;
-					maxMinMinCut[i][j] = 0;
-				}
-				minCut[i] = 0;
-			}
 			// read in list of edges, and compute weights for repeated edges
 			int x, y;
 			for (int i = 0; i < e; i++) {
@@ -212,6 +234,7 @@ public class Tunnels {
 			}
 			// compute maxmincut
 			findMaxMinMinCut();
+			//findMaxMinMinCut2();
 			dumpMat("maxMinMinCut", maxMinMinCut);
 			log("maxMinMinCut = " + maxMinMinCut[0][1]);
 		}
